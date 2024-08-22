@@ -8,8 +8,7 @@ class ProdutorRuralViewSet(viewsets.ModelViewSet):
     queryset = ProdutorRural.objects.all()
     serializer_class = ProdutorRuralSerializer
 
-    @action(detail=False, methods=['post'], url_path='create_with_cultures')
-    def create_with_cultures(self, request):
+    def create(self, request, *args, **kwargs):
         produtor_data = request.data
         culturas_data = produtor_data.pop('culturas', [])
 
@@ -31,7 +30,7 @@ class ProdutorRuralViewSet(viewsets.ModelViewSet):
             
             return Response(produtor_serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(produtor_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(produtor_serializer.errors, status=status.HTTP_400_BAD_REQUEST)        
 
 class CulturaViewSet(viewsets.ModelViewSet):
     queryset = Cultura.objects.all()

@@ -124,7 +124,7 @@ class ProdutorRuralAPITest(TestCase):
                 {"nome": "Milho"}
             ]
         }
-        response = self.client.post(f'/api/produtor_rural/create_with_cultures/', data, format='json')
+        response = self.client.post(f'/api/produtor_rural/', data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(ProdutorRural.objects.count(), 1)
         self.assertEqual(Cultura.objects.count(), 2)

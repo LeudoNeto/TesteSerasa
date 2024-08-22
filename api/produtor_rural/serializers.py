@@ -7,13 +7,21 @@ class CulturaSerializer(serializers.ModelSerializer):
         model = Cultura
         fields = ['nome', 'produtor_rural']
 
+class CulturaDoProdutorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cultura
+        fields = ['nome']
+
 class ProdutorRuralSerializer(serializers.ModelSerializer):
+    culturas = CulturaDoProdutorSerializer(many=True, required=False)
+
     class Meta:
         model = ProdutorRural
         fields = [
             'id', 'cpf_cnpj', 'usa_cpf', 'nome', 'nome_fazenda',
             'cidade', 'estado', 'area_total_hectares', 
             'area_agricultavel_hectares', 'area_vegetacao_hectares',
+            'culturas'
         ]
 
     def validate(self, data):
