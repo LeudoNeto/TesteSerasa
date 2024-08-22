@@ -1,4 +1,4 @@
-def valida_cpf(cpf: str) -> bool:
+def validate_cpf(cpf: str) -> bool:
     if len(cpf) != 14:
         return False
     cpf = cpf.replace('.', '').replace('-', '')
@@ -15,7 +15,7 @@ def valida_cpf(cpf: str) -> bool:
 
     return cpf[-2:] == f'{digito1}{digito2}'
 
-def valida_cnpj(cnpj: str) -> bool:
+def validate_cnpj(cnpj: str) -> bool:
     if len(cnpj) != 18:
         return False
     cnpj = cnpj.replace('.', '').replace('/', '').replace('-', '')

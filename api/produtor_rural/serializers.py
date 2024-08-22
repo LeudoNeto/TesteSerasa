@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import ProdutorRural, Cultura
-from .utils import valida_cpf, valida_cnpj
+from .utils import validate_cpf, validate_cnpj
 
 class CulturaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,10 +17,10 @@ class ProdutorRuralSerializer(serializers.ModelSerializer):
         ]
 
     def validate(self, data):
-        if data['usa_cpf'] and not valida_cpf(data['cpf_cnpj']):
+        if data['usa_cpf'] and not validate_cpf(data['cpf_cnpj']):
             raise serializers.ValidationError("CPF inválido.")
 
-        if not data['usa_cpf'] and not valida_cnpj(data['cpf_cnpj']):
+        if not data['usa_cpf'] and not validate_cnpj(data['cpf_cnpj']):
             raise serializers.ValidationError("CNPJ inválido")
 
         if data['area_agricultavel_hectares'] + data['area_vegetacao_hectares'] > data['area_total_hectares']:
