@@ -17,12 +17,24 @@ class ProdutorRuralSerializer(serializers.ModelSerializer):
         ]
 
     def validate(self, data):
-        if data['usa_cpf'] and not validate_cpf(data['cpf_cnpj']):
-            raise serializers.ValidationError("CPF inválido.")
+        # Pega os valores antigos, para os casos de UPDATE ou PATCH
+        instance = getattr(self, 'instance', None)
 
-        if not data['usa_cpf'] and not validate_cnpj(data['cpf_cnpj']):
+        usa_cpf = data.get('usa_cpf', getattr(instance, 'usa_cpf', None))
+        cpf_cnpj = data.get('cpf_cnpj', getattr(instance, 'cpf_cnpj', None))
+        area_agricultavel = data.get('area_agricultavel_hectares', getattr(instance, 'area_agricultavel_hectares', None))
+        area_vegetacao = data.get('area_vegetacao_hectares', getattr(instance, 'area_vegetacao_hectares', None))
+        area_total = data.get('area_total_hectares', getattr(instance, 'area_total_hectares', None))
+
+        # Validação CPF/CNPJ
+        if usa_cpf and not validate_cpf(cpf_cnpj):
+            raise serializers.ValidationError("CPF inválido.")
+        if not usa_cpf and not validate_cnpj(cpf_cnpj):
             raise serializers.ValidationError("CNPJ inválido")
 
-        if data['area_agricultavel_hectares'] + data['area_vegetacao_hectares'] > data['area_total_hectares']:
-            raise serializers.ValidationError("A soma da área agricultável e da vegetação não pode ser maior que a área total da fazenda.")
+        # Validação das áreas
+        if area_agricultavel is not None and area_vegetacao is not None and area_total is not None:
+            if area_agricultavel + area_vegetacao > area_total:
+                raise serializers.ValidationError("A soma da área agricultável e da vegetação não pode ser maior que a área total da fazenda.")
+        
         return data
