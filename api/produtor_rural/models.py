@@ -21,8 +21,13 @@ class Cultura(models.Model):
         ('Algodão', 'Algodão'),
         ('Café', 'Café'),
         ('Cana de Açúcar', 'Cana de Açúcar'),
-    ], unique=True, help_text='Nome da cultura')
+    ], help_text='Nome da cultura')
     produtor_rural = models.ForeignKey(ProdutorRural, on_delete=models.CASCADE, help_text='Produtor rural que cultiva essa cultura')
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['nome', 'produtor_rural'], name='unique_cultura_per_produtor')
+        ]
 
     def __str__(self):
         return self.nome
