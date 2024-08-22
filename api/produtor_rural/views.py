@@ -24,9 +24,7 @@ class ProdutorRuralViewSet(viewsets.ModelViewSet):
                 cultura_serializer = CulturaSerializer(data=cultura_data)
                 if cultura_serializer.is_valid():
                     cultura_serializer.save()
-                    print('salvou', cultura_serializer.data)
                 else:
-                    print('houve erro')
                     # Se houver um erro, desfaz a criação do produtor e culturas anteriores
                     produtor.delete()
                     return Response(cultura_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
