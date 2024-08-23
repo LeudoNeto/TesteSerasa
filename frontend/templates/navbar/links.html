@@ -1,0 +1,49 @@
+<ul class="menu-inner py-1">
+  <li class="menu-header small text-uppercase">
+    <span class="menu-header-text">Início</span>
+  </li>
+  <li class="menu-item {% if link_atual == 'index' %} active {% endif %}">
+    <a href="/" class="menu-link">
+      <i class="menu-icon tf-icons bx bx-home-circle"></i>
+      <div data-i18n="Analytics">Dashboard</div>
+    </a>
+  </li>
+
+  <li class="menu-header small text-uppercase">
+    <span class="menu-header-text">Administrativo</span>
+  </li>
+
+  <li class="menu-item {% if link_atual == 'vendas' %} active {% endif %}">
+    <a href="/vendas/" class="menu-link">
+      <i class="menu-icon tf-icons bx bx-user"></i>
+      <div data-i18n="Produtores Rurais">Produtores Rurais</div>
+    </a>
+  </li>
+
+  <!-- Misc -->
+  <li class="menu-header small text-uppercase">
+    <span class="menu-header-text">Outros</span>
+  </li>
+
+  <li class="menu-item" id="themeSwitcherMenu">
+    <a onclick="toggleDarkMode()" style="cursor: pointer;" class="menu-link">
+      <i class="menu-icon tf-icons bx bx-sun"></i>
+      <div data-i18n="Suporte">Modo Claro</div>
+    </a>
+  </li>
+
+  <li class="menu-item">
+    <a href="icons-boxicons.html" class="menu-link">
+      <i class="menu-icon tf-icons bx bx-support"></i>
+      <div data-i18n="Suporte">Suporte</div>
+    </a>
+  </li>
+
+  <li class="menu-item">
+    <a href="icons-boxicons.html" class="menu-link">
+      <i class="menu-icon tf-icons bx bxl-instagram"></i>
+      <div data-i18n="Contato">Contato</div>
+    </a>
+  </li>
+
+</ul>

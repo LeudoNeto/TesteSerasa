@@ -1,0 +1,16 @@
+{% extends 'navbar/navbar.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+    {% include "index/graficos/pizza_estados.html" %}
+    {% include "index/graficos/pizza_culturas.html" %}
+    {% include "index/graficos/pizza_uso_do_solo.html" %}
+    {% include "index/graficos/total_fazendas.html" %}
+    {% include "index/graficos/total_fazendas_hectares.html" %}
+</div>
+
+<script src="{% static "js/index.js" %}"></script>
+
+{% endblock content %}
