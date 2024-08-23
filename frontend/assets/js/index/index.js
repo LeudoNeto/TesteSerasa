@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     total_estados += data.estados_pizza[estado];
                 }
                 estadosTotalText.innerHTML = Object.keys(data.estados_pizza).length; // estados únicos
-                makePizzaChart(pizzaEstadosChart, data.estados_pizza, total_estados);
+                makePizzaChart(pizzaEstadosChart, processEstadosData(data.estados_pizza), total_estados);
 
                 let total_culturas = 0;
                 for (let cultura in data.culturas_pizza) {
@@ -66,8 +66,8 @@ document.addEventListener("DOMContentLoaded", function() {
         // --------------------------------------------------------------------
         pizzaChartConfig = {
             chart: {
-                height: 165,
-                width: 130,
+                height: 200,
+                width: 200,
                 type: 'donut'
             },      
             labels: Object.keys(data),
@@ -134,3 +134,27 @@ document.addEventListener("DOMContentLoaded", function() {
     }
       
 });
+
+function processEstadosData(estadosData, maxEstados = 6) { // limita a quantidade de estados a serem exibidos
+    let processedData = {};
+    let outrosTotal = 0;
+
+    // Ordena os estados pela quantidade, do maior para o menor
+    let sortedEstados = Object.entries(estadosData).sort((a, b) => b[1] - a[1]);
+
+    // Mantém os 6 primeiros estados e soma o restante na categoria "Outros"
+    sortedEstados.forEach(([estado, quantidade], index) => {
+        if (index < maxEstados) {
+            processedData[estado] = quantidade;
+        } else {
+            outrosTotal += quantidade;
+        }
+    });
+
+    // Adiciona a categoria "Outros" se houver estados adicionais
+    if (outrosTotal > 0) {
+        processedData["Outros"] = outrosTotal;
+    }
+
+    return processedData;
+}
