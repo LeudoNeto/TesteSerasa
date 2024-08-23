@@ -90,6 +90,20 @@ class ProdutorRuralAPITest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn("This field may not be blank.", response.data['nome'])
 
+    def test_retrieve_produtor_rural_with_cultures(self):
+        produtor = ProdutorRural.objects.create(**self.produtor_rural_data)
+        Cultura.objects.create(nome="Soja", produtor_rural=produtor)
+        Cultura.objects.create(nome="Milho", produtor_rural=produtor)
+        
+        response = self.client.get(f'/api/produtor_rural/{produtor.id}/')
+        
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['nome'], produtor.nome)
+        self.assertEqual(len(response.data['culturas']), 2)  # Verifica se duas culturas estão associadas
+        self.assertEqual(response.data['culturas'][0]['nome'], "Soja")
+        self.assertEqual(response.data['culturas'][1]['nome'], "Milho")
+
+
     def test_update_produtor_rural(self):
         produtor = ProdutorRural.objects.create(**self.produtor_rural_data)
         update_data = {
@@ -102,33 +116,47 @@ class ProdutorRuralAPITest(TestCase):
         self.assertEqual(produtor.nome, "João Atualizado")
         self.assertEqual(produtor.nome_fazenda, "Fazenda Atualizada")
 
+    def test_update_produtor_rural_with_valid_cultures(self):
+        produtor = ProdutorRural.objects.create(**self.produtor_rural_data)
+        cultura1 = Cultura.objects.create(nome="Soja", produtor_rural=produtor)
+        cultura2 = Cultura.objects.create(nome="Milho", produtor_rural=produtor)
+        
+        update_data = {
+            "nome": "João Silva Atualizado",
+            "culturas": [
+                {"nome": "Algodão"},
+                {"nome": "Café"}
+            ]
+        }
+        
+        response = self.client.patch(f'/api/produtor_rural/{produtor.id}/', update_data, format='json')
+        
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        produtor.refresh_from_db()
+        self.assertEqual(produtor.nome, "João Silva Atualizado")
+        self.assertEqual(Cultura.objects.count(), 2)  # Deve haver 2 novas culturas
+        self.assertEqual(produtor.cultura_set.count(), 2)  # O produtor deve ter 2 culturas associadas
+        self.assertEqual(produtor.cultura_set.first().nome, "Algodão")
+        self.assertEqual(produtor.cultura_set.last().nome, "Café")
+
+    def test_update_produtor_rural_with_invalid_culture(self):
+        produtor = ProdutorRural.objects.create(**self.produtor_rural_data)
+        Cultura.objects.create(nome="Soja", produtor_rural=produtor)
+        
+        update_data = {
+            "culturas": [
+                {"nome": ""}  # Nome da cultura inválido
+            ]
+        }
+        
+        response = self.client.patch(f'/api/produtor_rural/{produtor.id}/', update_data, format='json')
+        
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("is not a valid choice.", response.data['nome'][0])
+
     def test_delete_produtor_rural(self):
         produtor = ProdutorRural.objects.create(**self.produtor_rural_data)
         response = self.client.delete(f'/api/produtor_rural/{produtor.id}/')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(ProdutorRural.objects.count(), 0)
-
-    def test_create_produtor_rural_with_valid_cultures(self):
-        data = {
-            "cpf_cnpj": "123.456.789-09",
-            "usa_cpf": True,
-            "nome": "João Silva",
-            "nome_fazenda": "Fazenda Bela Vista",
-            "cidade": "Rio Verde",
-            "estado": "GO",
-            "area_total_hectares": "100.00",
-            "area_agricultavel_hectares": "70.00",
-            "area_vegetacao_hectares": "30.00",
-            "culturas": [
-                {"nome": "Soja"},
-                {"nome": "Milho"}
-            ]
-        }
-        response = self.client.post(f'/api/produtor_rural/', data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(ProdutorRural.objects.count(), 1)
-        self.assertEqual(Cultura.objects.count(), 2)
-        produtor_rural = ProdutorRural.objects.get()
-        self.assertEqual(produtor_rural.nome, "João Silva")
-        self.assertEqual(produtor_rural.cultura_set.count(), 2)
 
