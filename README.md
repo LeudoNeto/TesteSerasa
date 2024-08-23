@@ -10,7 +10,7 @@ Este projeto Django é voltado para um teste técnico do Serasa e inclui uma apl
 
 ## Arquitetura
 
-Para esse projeto, na descrição do teste técnico solicitava o uso de React e Node.js, porém a recrutadora me explicou que era um teste geral e que podia utilizar a stack de preferência, logo vou utilizar as tecnologias que estou acostumado e que também fazem parte da descrição original da vaga: banco de dados PostgreSQL, com o uso do AWS RDS para gerenciamento, back-end feito com Django, front-end feito com HTML/CSS/JavaScript, além da template Bootstrap: Sneat. Para a hospedagem, está sendo utilizada uma instância EC2 da AWS, com sistema Amazon Linux, e o projeto está containerizado com o Docker.
+Para esse projeto, a descrição do teste técnico solicitava o uso de React e Node.js. No entanto, a recrutadora explicou que se tratava de um teste geral e que eu poderia utilizar a stack de minha preferência. Portanto, optei por utilizar as tecnologias com as quais estou mais familiarizado e que também fazem parte da descrição original da vaga: banco de dados PostgreSQL, gerenciado pelo AWS RDS, back-end em Django, e front-end em HTML/CSS/JavaScript com a template Bootstrap Sneat. Para a hospedagem, está sendo utilizada uma instância EC2 da AWS, com sistema Amazon Linux, e o projeto está containerizado com o Docker.
 
 ### Diagrama de Componentes
 
@@ -27,7 +27,7 @@ Para esse projeto, na descrição do teste técnico solicitava o uso de React e 
   - **`urls.py`**: Arquivo de roteamento global do projeto.
 - **`api/`**: Código da API do projeto.
   - **`urls.py`**: Roteamento global das URLs da API.
-  - **`dashboard/`**: Aplicativo que gerencia o dashboard.
+  - **`dashboard/`**: Aplicativo que fornece os dados para o dashboard da página inicial da interface de usuário.
     - **`views.py`**: Lógica e requisitos de negócio para o dashboard.
     - **`tests.py`**: Testes das endpoints relacionadas ao dashboard.
   - **`produtor_rural/`**: Aplicativo que gerencia o modelo de Produtor Rural.
@@ -92,11 +92,19 @@ sudo docker-compose build
 sudo docker-compose up -d
 ```
 
-Após isso seu projeto estará disponível em `https://127.0.0.1:8000`
+Após isso seu projeto estará disponível em `http://127.0.0.1:8000`
 
-## Execução dos Testes
 
-Para testar a API do projeto basta executar:
+### Execução dos Testes
+
+Se não tiver instalado os módulos necessários para a execução do projeto localmente, execute no terminal:
+
+```bash
+pip install -r requirements.txt
+```
+
+
+Para executar os testes unitários na API do projeto:
 
 ```bash
 python3 manage.py test
