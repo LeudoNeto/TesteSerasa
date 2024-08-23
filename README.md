@@ -14,11 +14,11 @@ Para esse projeto, na descrição do teste técnico solicitava o uso de React e 
 
 ### Diagrama de Componentes
 
-![Diagrama de Componentes](imagens_doc\diagrama_componentes.png)
+![Diagrama de Componentes](imagens_doc/diagrama_componentes.png)
 
 ### Diagrama de Classes
 
-![Diagrama de Classes](imagens_doc\diagrama_classes.png)
+![Diagrama de Classes](imagens_doc/diagrama_classes.png)
 
 ## Estrutura do Projeto
 
