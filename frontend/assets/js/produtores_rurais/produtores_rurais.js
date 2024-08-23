@@ -52,6 +52,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 let formJSON = {};
                 formData.forEach((value, key) => formJSON[key] = value);
 
+                let culturas = [];
+                for (let cultura of formCriarProdutorRural.querySelectorAll('.checkbox_cultura:checked')) {
+                    culturas.push({'nome': cultura.value});
+                }
+                formJSON['culturas'] = culturas;
+
                 if (result.isConfirmed) {
                     fetch("/api/produtor_rural/", {
                         headers: {
@@ -108,12 +114,11 @@ document.addEventListener("DOMContentLoaded", function() {
                         for (const key in data) {
                             let input = formEditarProdutorRural.querySelector(`[name=${key}]`);
                             if (input) {
-                                if (input.type === 'checkbox') {
-                                    input.checked = data[key];
-                                } else {
-                                    input.value = data[key];
-                                }
+                                input.value = data[key];
                             }
+                        }
+                        for (let cultura of formEditarProdutorRural.querySelectorAll('.checkbox_cultura')) {
+                            cultura.checked = data.culturas.some(c => c.nome === cultura.value);
                         }
                         salvarEditarProdutorRural.dataset.id = produtor_id;
                         swal.close();
@@ -173,6 +178,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 let formJSON = {};
                 formData.forEach((value, key) => formJSON[key] = value);
+
+                let culturas = [];
+                for (let cultura of formEditarProdutorRural.querySelectorAll('.checkbox_cultura:checked')) {
+                    culturas.push({'nome': cultura.value});
+                }
+                formJSON['culturas'] = culturas;
 
                 let produtor_id = salvarEditarProdutorRural.getAttribute('data-id');
                 if (result.isConfirmed) {
