@@ -1,0 +1,58 @@
+{% extends 'navbar/navbar.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="card">
+  <div class="d-flex justify-content-between align-items-center w-100">
+    <h5 class="card-header">Produtores Rurais</h5>
+    <button class="btn btn-primary me-4" data-bs-toggle="modal" data-bs-target="#modalCriarProdutorRural">Cadastrar Produtor Rural</button>
+  </div>
+  <div class="text-nowrap">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>CPF/CNPJ</th>
+          <th>Nome</th>
+          <th>Nome da Fazenda</th>
+          <th>Cidade</th>
+          <th>Estado</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody class="table-border-bottom-0">
+        {% for produtor in produtores_rurais %}
+          <tr>
+            <td>{{ produtor.cpf_cnpj }}</td>
+            <td>{{ produtor.nome }}</td>
+            <td>{{ produtor.nome_fazenda }}</td>
+            <td>{{ produtor.cidade }}</td>
+            <td>{{ produtor.estado }}</td>
+            <td>
+              <div class="dropdown">
+                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                  <i class="bx bx-dots-vertical-rounded"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#" data-id="{{ produtor.id }}" id="editarProdutorRural" data-bs-toggle="modal" data-bs-target="#modalEditarProdutorRural"
+                    ><i class="bx bx-edit-alt me-1"></i>Editar</a
+                  >
+                  <a class="dropdown-item" href="#" data-id="{{ produtor.id }}" id="excluirProdutorRural"
+                    ><i class="bx bx-trash me-1"></i>Excluir</a
+                  >
+                </div>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% include "produtores_rurais/modal_criar_produtor_rural.html" %}
+{% include "produtores_rurais/modal_editar_produtor_rural.html" %}
+
+<script src="{% static "js/produtores_rurais/produtores_rurais.js" %}"></script>
+
+{% endblock content %}

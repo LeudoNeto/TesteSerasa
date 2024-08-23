@@ -1,0 +1,64 @@
+<!-- Modal -->
+
+<div class="modal fade modal-static" id="{% block id_modal %}modalCriarProdutorRural{% endblock id_modal %}" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form id="{% block id_form %}formCriarProdutorRural{% endblock id_form %}">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title">Cadastrar Produtor Rural</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          
+          <div class="row mb-3 g-2">
+              <label for="cpf_cnpj" class="form-label">CPF/CNPJ: *</label>
+              <input type="text" id="cpf_cnpj" name="cpf_cnpj" class="form-control" required oninput="formatCpfCnpj(this)" maxlength="18" />  
+          </div>
+          <div class="row mb-3 g-2">
+            <label for="nome" class="form-label">Nome: *</label>
+            <input type="text" id="nome" name="nome" class="form-control" required />  
+          </div>
+          <div class="row mb-3 g-2">
+            <label for="nome_fazenda" class="form-label">Nome da Fazenda: *</label>
+            <input type="text" id="nome_fazenda" name="nome_fazenda" class="form-control" required />  
+          </div>
+          <div class="row mb-3 g-2">
+            <div class="col-5">
+              <label for="cidade" class="form-label">Cidade: *</label>
+              <input type="text" id="cidade" name="cidade" class="form-control" required />  
+            </div>
+            <div class="col-5">
+              <label for="estado" class="form-label">Estado: *</label>
+              <input type="text" id="estado" name="estado" class="form-control" required maxlength="2" />  
+            </div>
+          </div>
+          <div class="row mb-3 g-2">
+            <label for="area_total_hectares" class="form-label">Área total da Fazenda (em hectares): *</label>
+            <input type="text" id="area_total_hectares" name="area_total_hectares" class="form-control" required oninput="formatArea(this)" />  
+          </div>
+          <div class="row mb-3 g-2">
+            <label for="area_agricultavel_hectares" class="form-label">Área agricultável (em hectares): *</label>
+            <input type="text" id="area_agricultavel_hectares" name="area_agricultavel_hectares" class="form-control" required oninput="formatArea(this)" />  
+          </div>
+          <div class="row mb-3 g-2">
+            <label for="area_vegetacao_hectares" class="form-label">Área de vegetação (em hectares): *</label>
+            <input type="text" id="area_vegetacao_hectares" name="area_vegetacao_hectares" class="form-control" required oninput="formatArea(this)" />  
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            Fechar
+          </button>
+          <button type="button" id="salvarProdutorRural" class="btn btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
