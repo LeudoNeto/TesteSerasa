@@ -44,5 +44,11 @@ class ProdutorRuralSerializer(serializers.ModelSerializer):
         if area_agricultavel is not None and area_vegetacao is not None and area_total is not None:
             if area_agricultavel + area_vegetacao > area_total:
                 raise serializers.ValidationError("A soma da área agricultável e da vegetação não pode ser maior que a área total da fazenda.")
+            
+        # Validação e formatação do campo 'estado'
+        estado = data.get('estado', '').strip().upper()
+        if not estado.isalpha() or len(estado) != 2:
+            raise serializers.ValidationError("O campo 'estado' deve conter exatamente duas letras.")
+        data['estado'] = estado
         
         return data
