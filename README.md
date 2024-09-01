@@ -4,9 +4,9 @@
 
 Este projeto Django é voltado para um teste técnico do Serasa e inclui uma aplicação web que gerencia produtores rurais. O projeto possui funcionalidades para visualizar e gerenciar informações sobre produtores e suas respectivas culturas.
 
-- Para utilizar a aplicação: `http://3.142.140.39/`
+- Para utilizar a aplicação: `http://18.116.72.214/`
 
-- Documentação da API: `http://3.142.140.39/api/swagger/`
+- Documentação da API: `http://18.116.72.214/api/swagger/`
 
 ## Arquitetura
 
